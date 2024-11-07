@@ -6,7 +6,7 @@ defmodule VegaLite.Native do
   github_url = mix_config[:package][:links]["GitHub"]
 
   use RustlerPrecompiled,
-    otp_app: :vega_lite,
+    otp_app: :vega_lite_convert,
     crate: "ex_vl_convert",
     version: version,
     base_url: "#{github_url}/releases/download/v#{version}",

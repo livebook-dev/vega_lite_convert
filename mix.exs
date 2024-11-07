@@ -25,9 +25,10 @@ defmodule VegaLiteConvert.MixProject do
 
   defp deps do
     [
+      {:jason, "~> 1.4"},
+      {:vega_lite, ">= 0.0.0"},
       {:rustler_precompiled, "~> 0.4"},
       {:rustler, ">= 0.0.0", optional: true},
-      {:jason, "~> 1.4"},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
   end
