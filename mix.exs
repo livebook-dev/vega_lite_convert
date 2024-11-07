@@ -43,6 +43,14 @@ defmodule VegaLiteConvert.MixProject do
 
   def package do
     [
+      files: [
+        "lib",
+        "native/ex_vl_convert/.cargo",
+        "native/ex_vl_convert/src",
+        "native/ex_vl_convert/Cargo*",
+        "checksum-*.exs",
+        "mix.exs"
+      ],
       licenses: ["Apache-2.0"],
       links: %{
         "GitHub" => "https://github.com/livebook-dev/vega_lite_convert"
