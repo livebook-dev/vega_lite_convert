@@ -23,6 +23,64 @@ defmodule VegaLiteConvertTest do
     end
   end
 
+  describe "to_png/2" do
+    test "should a PNG image given a VegaLite spec" do
+      vl = generate_vl()
+
+      png =
+        vl
+        |> Convert.to_png()
+        |> :binary.list_to_bin()
+
+      assert <<
+               0x89,
+               0x50,
+               0x4E,
+               0x47,
+               0x0D,
+               0x0A,
+               0x1A,
+               0x0A,
+               _length::size(32),
+               "IHDR",
+               width::size(32),
+               height::size(32),
+               _rest::binary
+             >> = png
+
+      assert width == 212
+      assert height == 62
+    end
+
+    test "should a PNG image given a VegaLite spec with adjusted scaling" do
+      vl = generate_vl()
+
+      png =
+        vl
+        |> Convert.to_png(scale: 2.0)
+        |> :binary.list_to_bin()
+
+      assert <<
+               0x89,
+               0x50,
+               0x4E,
+               0x47,
+               0x0D,
+               0x0A,
+               0x1A,
+               0x0A,
+               _length::size(32),
+               "IHDR",
+               width::size(32),
+               height::size(32),
+               _rest::binary
+             >> = png
+
+      assert width == 424
+      assert height == 124
+    end
+  end
+
   describe "to_html/2" do
     test "should return an HTML document with the visual as an SVG with the JS bundled by default" do
       vl = generate_vl()
