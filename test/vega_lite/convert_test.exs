@@ -23,6 +23,30 @@ defmodule VegaLiteConvertTest do
     end
   end
 
+  describe "to_jpeg/2" do
+    test "should a JPEG image given a VegaLite spec" do
+      vl = generate_vl()
+
+      jpeg =
+        vl
+        |> Convert.to_jpeg()
+        |> :binary.list_to_bin()
+
+      assert <<0xFFD8::size(16), _rest::binary>> = jpeg
+    end
+
+    test "should a JPEG image given a VegaLite spec with adjusted scaling" do
+      vl = generate_vl()
+
+      jpeg =
+        vl
+        |> Convert.to_jpeg(scale: 2.0)
+        |> :binary.list_to_bin()
+
+      assert <<0xFFD8::size(16), _rest::binary>> = jpeg
+    end
+  end
+
   describe "to_png/2" do
     test "should a PNG image given a VegaLite spec" do
       vl = generate_vl()
