@@ -82,8 +82,9 @@ defmodule VegaLite.Convert do
         vega_lite_json
 
       :vega ->
-        {:ok, vega_json} = Native.vegalite_to_vega(vega_lite_json)
-        vega_json
+        vega_lite_json
+        |> Native.vegalite_to_vega()
+        |> unwrap!()
     end
   end
 
@@ -108,12 +109,10 @@ defmodule VegaLite.Convert do
     bundle = Keyword.get(opts, :bundle, true)
     renderer = opts |> Keyword.get(:renderer, :svg) |> to_string()
 
-    {:ok, html} =
-      vl
-      |> to_json()
-      |> Native.vegalite_to_html(bundle, renderer)
-
-    html
+    vl
+    |> to_json()
+    |> Native.vegalite_to_html(bundle, renderer)
+    |> unwrap!()
   end
 
   @doc """
@@ -131,12 +130,10 @@ defmodule VegaLite.Convert do
     scale = Keyword.get(opts, :scale, 1.0)
     ppi = Keyword.get(opts, :ppi, 72.0)
 
-    {:ok, png} =
-      vl
-      |> to_json()
-      |> Native.vegalite_to_png(scale, ppi)
-
-    png
+    vl
+    |> to_json()
+    |> Native.vegalite_to_png(scale, ppi)
+    |> unwrap!()
   end
 
   @doc """
@@ -145,12 +142,10 @@ defmodule VegaLite.Convert do
   """
   @spec to_svg(VegaLite.t()) :: binary()
   def to_svg(vl) do
-    {:ok, svg} =
-      vl
-      |> to_json()
-      |> Native.vegalite_to_svg()
-
-    svg
+    vl
+    |> to_json()
+    |> Native.vegalite_to_svg()
+    |> unwrap!()
   end
 
   @doc """
@@ -159,12 +154,10 @@ defmodule VegaLite.Convert do
   """
   @spec to_pdf(VegaLite.t()) :: binary()
   def to_pdf(vl) do
-    {:ok, pdf} =
-      vl
-      |> to_json()
-      |> Native.vegalite_to_pdf()
-
-    pdf
+    vl
+    |> to_json()
+    |> Native.vegalite_to_pdf()
+    |> unwrap!()
   end
 
   @doc """
@@ -183,12 +176,10 @@ defmodule VegaLite.Convert do
     scale = Keyword.get(opts, :scale, 1.0)
     quality = Keyword.get(opts, :quality, 90)
 
-    {:ok, jpeg} =
-      vl
-      |> to_json()
-      |> Native.vegalite_to_png(scale, quality)
-
-    jpeg
+    vl
+    |> to_json()
+    |> Native.vegalite_to_jpeg(scale, quality)
+    |> unwrap!()
   end
 
   @doc """
@@ -220,4 +211,9 @@ defmodule VegaLite.Convert do
     |> to_html()
     |> WxViewer.start()
   end
+
+  defp unwrap!(:ok), do: :ok
+  defp unwrap!({:ok, value}), do: value
+  defp unwrap!({:error, error}), do: raise(error)
+  defp unwrap!(_), do: raise("An unknown error occurred")
 end
