@@ -32,8 +32,28 @@ defmodule VegaLiteConvertTest do
     end
   end
 
+  describe "to_pdf/2" do
+    test "should generate a PDF document given a VegaLite spec" do
+      vl = generate_vl()
+
+      pdf =
+        vl
+        |> Convert.to_pdf()
+        |> :binary.list_to_bin()
+
+      assert <<
+               37,
+               80,
+               68,
+               70,
+               45,
+               _rest::binary
+             >> = pdf
+    end
+  end
+
   describe "to_jpeg/2" do
-    test "should a JPEG image given a VegaLite spec" do
+    test "should generate a JPEG image given a VegaLite spec" do
       vl = generate_vl()
 
       jpeg =
@@ -44,7 +64,7 @@ defmodule VegaLiteConvertTest do
       assert <<0xFFD8::size(16), _rest::binary>> = jpeg
     end
 
-    test "should a JPEG image given a VegaLite spec with adjusted scaling" do
+    test "should generate a JPEG image given a VegaLite spec with adjusted scaling" do
       vl = generate_vl()
 
       jpeg =
@@ -57,7 +77,7 @@ defmodule VegaLiteConvertTest do
   end
 
   describe "to_png/2" do
-    test "should a PNG image given a VegaLite spec" do
+    test "should generate a PNG image given a VegaLite spec" do
       vl = generate_vl()
 
       png =
@@ -85,7 +105,7 @@ defmodule VegaLiteConvertTest do
       assert height == 62
     end
 
-    test "should a PNG image given a VegaLite spec with adjusted scaling" do
+    test "should generate a PNG image given a VegaLite spec with adjusted scaling" do
       vl = generate_vl()
 
       png =
