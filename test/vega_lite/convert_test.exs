@@ -9,6 +9,52 @@ defmodule VegaLiteConvertTest do
     %{"height" => 190, "weight" => 85, "width" => 20, "unused" => "b"}
   ]
 
+  describe "save!/3" do
+    @tag :tmp_dir
+    test "should write a file to filesystem for all of the supported types", %{tmp_dir: tmp_dir} do
+      supported_file_types = [
+        :json,
+        :html,
+        :png,
+        :svg,
+        :pdf,
+        :jpeg,
+        :jpg
+      ]
+
+      vl = generate_vl()
+
+      Enum.each(supported_file_types, fn file_type ->
+        path = Path.join(tmp_dir, "test_file.#{file_type}")
+        Convert.save!(vl, path)
+        assert File.exists?(path)
+      end)
+    end
+
+    @tag :tmp_dir
+    test "should raise an error when an invalid file name is provided", %{tmp_dir: tmp_dir} do
+      vl = generate_vl()
+      path = Path.join(tmp_dir, "test_file.invalid")
+
+      assert_raise ArgumentError,
+                   "unsupported export format, expected :json, :html, :png, :svg, :pdf, :jpeg or :jpg got: :invalid",
+                   fn ->
+                     Convert.save!(vl, path)
+                   end
+    end
+
+    @tag :tmp_dir
+    test "should generate a file with a nonstandard extension if explicitly provided", %{
+      tmp_dir: tmp_dir
+    } do
+      vl = generate_vl()
+
+      path = Path.join(tmp_dir, "test_file.pngv2")
+      Convert.save!(vl, path, format: :png)
+      assert File.exists?(path)
+    end
+  end
+
   describe "to_json/2" do
     test "should return the spec as VegaLite formatted JSON" do
       vl = generate_vl()
@@ -23,7 +69,7 @@ defmodule VegaLiteConvertTest do
     end
   end
 
-  describe "to_svg/2" do
+  describe "to_svg/1" do
     test "should return the spec as VegaLite formatted JSON" do
       vl = generate_vl()
       svg = Convert.to_svg(vl)
@@ -32,7 +78,7 @@ defmodule VegaLiteConvertTest do
     end
   end
 
-  describe "to_pdf/2" do
+  describe "to_pdf/1" do
     test "should generate a PDF document given a VegaLite spec" do
       vl = generate_vl()
 
