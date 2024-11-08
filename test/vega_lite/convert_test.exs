@@ -23,6 +23,15 @@ defmodule VegaLiteConvertTest do
     end
   end
 
+  describe "to_svg/2" do
+    test "should return the spec as VegaLite formatted JSON" do
+      vl = generate_vl()
+      svg = Convert.to_svg(vl)
+
+      assert svg =~ "xmlns=\"http://www.w3.org/2000/svg\""
+    end
+  end
+
   describe "to_jpeg/2" do
     test "should a JPEG image given a VegaLite spec" do
       vl = generate_vl()
