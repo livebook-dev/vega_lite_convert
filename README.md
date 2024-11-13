@@ -22,7 +22,7 @@ end
 
 ## Previous versions
 
-Prior to v1, this package has been published and developed in [this repository](https://github.com/simonprev/vega_lite_convert).
+Prior to v1, this package was being published and developed in [this repository](https://github.com/simonprev/vega_lite_convert).
 
 ## License
 
