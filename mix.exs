@@ -10,7 +10,7 @@ defmodule VegaLiteConvert.MixProject do
       version: @version,
       description: @description,
       name: "VegaLiteConvert",
-      elixir: "~> 1.17",
+      elixir: "~> 1.12",
       deps: deps(),
       docs: docs(),
       package: package(),
