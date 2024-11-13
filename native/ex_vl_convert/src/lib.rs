@@ -4,17 +4,6 @@ use vl_convert_rs::VlConverter;
 use vl_convert_rs::VlVersion;
 
 // +-------------------------------------+
-// |        Rustler Return Types         |
-// +-------------------------------------+
-
-mod atoms {
-    rustler::atoms! {
-        ok,
-        error
-    }
-}
-
-// +-------------------------------------+
 // |            Vega Functions           |
 // +-------------------------------------+
 
