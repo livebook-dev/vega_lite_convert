@@ -49,6 +49,8 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
+      - uses: arduino/setup-protoc@v3
+
       - name: Extract project version
         shell: bash
         run: |

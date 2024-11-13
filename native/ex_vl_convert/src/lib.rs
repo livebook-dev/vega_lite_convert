@@ -224,4 +224,4 @@ fn vl_opts() -> VlOpts {
     };
 }
 
-rustler::init!("Elixir.VegaLite.Native");
+rustler::init!("Elixir.VegaLite.Convert.Native");

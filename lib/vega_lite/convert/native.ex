@@ -1,4 +1,4 @@
-defmodule VegaLite.Native do
+defmodule VegaLite.Convert.Native do
   @moduledoc false
 
   mix_config = Mix.Project.config()

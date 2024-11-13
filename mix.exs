@@ -1,7 +1,7 @@
-defmodule VegaLiteConvert.MixProject do
+defmodule VegaLite.Convert.MixProject do
   use Mix.Project
 
-  @version "0.1.0-dev"
+  @version "1.0.0-dev"
   @description "Elixir bindings to Rust vl-convert library"
 
   def project do
@@ -9,8 +9,8 @@ defmodule VegaLiteConvert.MixProject do
       app: :vega_lite_convert,
       version: @version,
       description: @description,
-      name: "VegaLiteConvert",
-      elixir: "~> 1.12",
+      name: "VegaLite.Convert",
+      elixir: "~> 1.13",
       deps: deps(),
       docs: docs(),
       package: package(),
@@ -35,7 +35,7 @@ defmodule VegaLiteConvert.MixProject do
 
   defp docs do
     [
-      main: "VegaLiteConvert",
+      main: "VegaLite.Convert",
       source_url: "https://github.com/livebook-dev/vega_lite_convert",
       source_ref: "v#{@version}"
     ]
