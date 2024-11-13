@@ -9,10 +9,7 @@ use vl_convert_rs::VlVersion;
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn vega_to_svg(vega_spec: String) -> Result<String, String> {
-    let vg_spec: serde_json::Value = match serde_json::from_str(vega_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("Vega spec is not valid JSON".to_string()),
-    };
+    let vg_spec = parse_spec(vega_spec)?;
 
     let mut converter = VlConverter::new();
     let svg_result = futures::executor::block_on(converter.vega_to_svg(vg_spec, vg_opts()));
@@ -25,10 +22,7 @@ fn vega_to_svg(vega_spec: String) -> Result<String, String> {
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn vega_to_html(vega_spec: String, bundle: bool, renderer: String) -> Result<String, String> {
-    let vg_spec: serde_json::Value = match serde_json::from_str(vega_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("Vega spec is not valid JSON".to_string()),
-    };
+    let vg_spec = parse_spec(vega_spec)?;
 
     let renderer_enum = match renderer.parse() {
         Ok(renderer_enum) => renderer_enum,
@@ -51,10 +45,7 @@ fn vega_to_html(vega_spec: String, bundle: bool, renderer: String) -> Result<Str
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn vega_to_png(vega_spec: String, scale: f32, ppi: f32) -> Result<Vec<u8>, String> {
-    let vg_spec: serde_json::Value = match serde_json::from_str(vega_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("Vega spec is not valid JSON".to_string()),
-    };
+    let vg_spec = parse_spec(vega_spec)?;
 
     let mut converter = VlConverter::new();
     let jpeg_result = futures::executor::block_on(converter.vega_to_png(
@@ -72,10 +63,7 @@ fn vega_to_png(vega_spec: String, scale: f32, ppi: f32) -> Result<Vec<u8>, Strin
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn vega_to_jpeg(vega_spec: String, scale: f32, quality: u8) -> Result<Vec<u8>, String> {
-    let vg_spec: serde_json::Value = match serde_json::from_str(vega_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("VegaLite spec is not valid JSON".to_string()),
-    };
+    let vg_spec = parse_spec(vega_spec)?;
 
     let mut converter = VlConverter::new();
     let jpeg_result = futures::executor::block_on(converter.vega_to_jpeg(
@@ -93,10 +81,7 @@ fn vega_to_jpeg(vega_spec: String, scale: f32, quality: u8) -> Result<Vec<u8>, S
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn vega_to_pdf(vega_spec: String) -> Result<Vec<u8>, String> {
-    let vg_spec: serde_json::Value = match serde_json::from_str(vega_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("Vega spec is not valid JSON".to_string()),
-    };
+    let vg_spec = parse_spec(vega_spec)?;
 
     let mut converter = VlConverter::new();
     let pdf_result = futures::executor::block_on(converter.vega_to_pdf(vg_spec, vg_opts()));
@@ -113,10 +98,7 @@ fn vega_to_pdf(vega_spec: String) -> Result<Vec<u8>, String> {
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn vegalite_to_svg(vega_lite_spec: String) -> Result<String, String> {
-    let vl_spec: serde_json::Value = match serde_json::from_str(vega_lite_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("VegaLite spec is not valid JSON".to_string()),
-    };
+    let vl_spec = parse_spec(vega_lite_spec)?;
 
     let mut converter = VlConverter::new();
     let svg_result = futures::executor::block_on(converter.vegalite_to_svg(vl_spec, vl_opts()));
@@ -133,10 +115,7 @@ fn vegalite_to_html(
     bundle: bool,
     renderer: String,
 ) -> Result<String, String> {
-    let vl_spec: serde_json::Value = match serde_json::from_str(vega_lite_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("VegaLite spec is not valid JSON".to_string()),
-    };
+    let vl_spec = parse_spec(vega_lite_spec)?;
 
     let renderer_enum = match renderer.parse() {
         Ok(renderer_enum) => renderer_enum,
@@ -159,10 +138,7 @@ fn vegalite_to_html(
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn vegalite_to_png(vega_lite_spec: String, scale: f32, ppi: f32) -> Result<Vec<u8>, String> {
-    let vl_spec: serde_json::Value = match serde_json::from_str(vega_lite_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("VegaLite spec is not valid JSON".to_string()),
-    };
+    let vl_spec = parse_spec(vega_lite_spec)?;
 
     let mut converter = VlConverter::new();
     let png_result = futures::executor::block_on(converter.vegalite_to_png(
@@ -180,10 +156,7 @@ fn vegalite_to_png(vega_lite_spec: String, scale: f32, ppi: f32) -> Result<Vec<u
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn vegalite_to_jpeg(vega_lite_spec: String, scale: f32, quality: u8) -> Result<Vec<u8>, String> {
-    let vl_spec: serde_json::Value = match serde_json::from_str(vega_lite_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("VegaLite spec is not valid JSON".to_string()),
-    };
+    let vl_spec = parse_spec(vega_lite_spec)?;
 
     let mut converter = VlConverter::new();
     let jpeg_result = futures::executor::block_on(converter.vegalite_to_jpeg(
@@ -201,10 +174,7 @@ fn vegalite_to_jpeg(vega_lite_spec: String, scale: f32, quality: u8) -> Result<V
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn vegalite_to_pdf(vega_lite_spec: String) -> Result<Vec<u8>, String> {
-    let vl_spec: serde_json::Value = match serde_json::from_str(vega_lite_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("VegaLite spec is not valid JSON".to_string()),
-    };
+    let vl_spec = parse_spec(vega_lite_spec)?;
 
     let mut converter = VlConverter::new();
     let pdf_result = futures::executor::block_on(converter.vegalite_to_pdf(vl_spec, vl_opts()));
@@ -217,10 +187,7 @@ fn vegalite_to_pdf(vega_lite_spec: String) -> Result<Vec<u8>, String> {
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn vegalite_to_vega(vega_lite_spec: String) -> Result<String, String> {
-    let vl_spec: serde_json::Value = match serde_json::from_str(vega_lite_spec.as_str()) {
-        Ok(spec) => spec,
-        Err(_err) => return Err("VegaLite spec is not valid JSON".to_string()),
-    };
+    let vl_spec = parse_spec(vega_lite_spec)?;
 
     let mut converter = VlConverter::new();
     let result = futures::executor::block_on(converter.vegalite_to_vega(vl_spec, vl_opts()));
@@ -233,6 +200,13 @@ fn vegalite_to_vega(vega_lite_spec: String) -> Result<String, String> {
 // +-------------------------------------+
 // |          Helper Functions           |
 // +-------------------------------------+
+
+fn parse_spec(spec: String) -> Result<serde_json::Value, String> {
+    return match serde_json::from_str(spec.as_str()) {
+        Ok(spec) => Ok(spec),
+        Err(_err) => Err("The given spec is not valid JSON".to_string()),
+    };
+}
 
 fn vg_opts() -> VgOpts {
     return VgOpts {
