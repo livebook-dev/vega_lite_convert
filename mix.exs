@@ -1,4 +1,4 @@
-defmodule VegaLiteConvert.MixProject do
+defmodule VegaLite.Convert.MixProject do
   use Mix.Project
 
   @version "1.0.0-dev"
