@@ -4,13 +4,29 @@ defmodule VegaLite.Convert do
 
   All of the exports are performed via a Rustler NIF that wraps the
   [vl-convert-rs](https://github.com/vega/vl-convert) Rust library.
+
+      alias VegaLite, as: Vl
+
+      vl =
+        Vl.new(width: 400, height: 400)
+        |> Vl.data_from_values(iteration: 1..100, score: 1..100)
+        |> Vl.mark(:line)
+        |> Vl.encode_field(:x, "iteration", type: :quantitative)
+        |> Vl.encode_field(:y, "score", type: :quantitative)
+
+      # Saves graphic to a file
+      VegaLite.Convert.save!(vl, "image.png")
+
+      # Returns graphic as a binary
+      VegaLite.Convert.to_png(vl)
+
   """
 
   alias VegaLite.Convert.WxViewer
   alias VegaLite.Convert.Native
 
   @doc """
-  Saves a `VegaLite` specification to a file in one of the supported
+  Renders a `VegaLite` graphic to a file in one of the supported
   formats.
 
   Any additional options provided beyond `:format` are passed to the
@@ -189,16 +205,16 @@ defmodule VegaLite.Convert do
 
   This requires the Erlang compilation to include the `:wx` module.
   """
-  @spec show(VegaLite.t()) :: :ok | :error
-  def show(vl) do
+  @spec open_viewer(VegaLite.t()) :: :ok | :error
+  def open_viewer(vl) do
     with {:ok, _pid} <- start_wx_viewer(vl), do: :ok
   end
 
   @doc """
   Same as `show/1`, but blocks until the window widget is closed.
   """
-  @spec show_and_wait(VegaLite.t()) :: :ok | :error
-  def show_and_wait(vl) do
+  @spec open_viewer_and_wait(VegaLite.t()) :: :ok | :error
+  def open_viewer_and_wait(vl) do
     with {:ok, pid} <- start_wx_viewer(vl) do
       ref = Process.monitor(pid)
 
