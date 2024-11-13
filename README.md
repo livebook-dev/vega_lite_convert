@@ -15,10 +15,14 @@ You can add the `:vega_lite_convert` dependency to your `mix.exs`:
 ```elixir
 def deps do
   [
-    {:vega_lite_convert, "~> 0.1.0"}
+    {:vega_lite_convert, "~> 1.0.0"}
   ]
 end
 ```
+
+## Previous versions
+
+Prior to v1, this package has been published and developed in [this repository](https://github.com/simonprev/vega_lite_convert).
 
 ## License
 
