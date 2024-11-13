@@ -9,7 +9,7 @@ defmodule VegaLiteConvert.MixProject do
       app: :vega_lite_convert,
       version: @version,
       description: @description,
-      name: "VegaLiteConvert",
+      name: "VegaLite.Convert",
       elixir: "~> 1.13",
       deps: deps(),
       docs: docs(),
@@ -35,7 +35,7 @@ defmodule VegaLiteConvert.MixProject do
 
   defp docs do
     [
-      main: "VegaLiteConvert",
+      main: "VegaLite.Convert",
       source_url: "https://github.com/livebook-dev/vega_lite_convert",
       source_ref: "v#{@version}"
     ]

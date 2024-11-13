@@ -6,7 +6,7 @@ Status](https://github.com/livebook-dev/vega_lite_convert/workflows/Test/badge.s
 
 Elixir bindings to the Rust library [vl-convert](https://github.com/vega/vl-convert).
 
-You can use this library to generate PNGs, PDFs, SVGs, etc from VegaLite specifications.
+You can use this library to generate PNGs, PDFs, SVGs, etc from [VegaLite](https://github.com/livebook-dev/vega_lite) specifications.
 
 ## Installation
 

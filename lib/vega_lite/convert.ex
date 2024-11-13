@@ -7,7 +7,7 @@ defmodule VegaLite.Convert do
   """
 
   alias VegaLite.Convert.WxViewer
-  alias VegaLite.Native
+  alias VegaLite.Convert.Native
 
   @doc """
   Saves a `VegaLite` specification to file in one of
@@ -215,5 +215,4 @@ defmodule VegaLite.Convert do
   defp unwrap!(:ok), do: :ok
   defp unwrap!({:ok, value}), do: value
   defp unwrap!({:error, error}), do: raise(error)
-  defp unwrap!(_), do: raise("An unknown error occurred")
 end
