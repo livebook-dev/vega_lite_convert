@@ -5,13 +5,23 @@ defmodule VegaLite.Convert.Native do
   version = mix_config[:version]
   github_url = mix_config[:package][:links]["GitHub"]
 
+  # The targets we support are limited by https://github.com/denoland/rusty_v8
+  targets = ~w(
+    aarch64-apple-darwin
+    aarch64-unknown-linux-gnu
+    x86_64-apple-darwin
+    x86_64-pc-windows-msvc
+    x86_64-unknown-linux-gnu
+  )
+
   use RustlerPrecompiled,
     otp_app: :vega_lite_convert,
     crate: "ex_vl_convert",
     version: version,
     base_url: "#{github_url}/releases/download/v#{version}",
-    targets:
-      Enum.uniq(["aarch64-unknown-linux-musl" | RustlerPrecompiled.Config.default_targets()]),
+    targets: targets,
+    # We don't use any features of newer NIF versions, so 2.15 is enough.
+    nif_versions: ["2.15"],
     force_build: System.get_env("VEGA_LITE_CONVERT_BUILD") in ["1", "true"]
 
   # Vega related NIF functions

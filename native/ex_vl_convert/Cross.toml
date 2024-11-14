@@ -1,0 +1,16 @@
+[build.env]
+passthrough = [
+  "RUSTLER_NIF_VERSION"
+]
+
+# The build requires protoc to be installed. For Cross, we need to
+# install one for the target architecture. We also specify a different
+# image to make sure a recent enough protoc version is installed.
+# See https://github.com/tokio-rs/prost/issues/929#issuecomment-1743215557
+[target.aarch64-unknown-linux-gnu]
+image = "ghcr.io/cross-rs/aarch64-unknown-linux-gnu:main"
+pre-build = [
+  "dpkg --add-architecture arm64",
+  "apt-get update",
+  "apt install -y liblzma-dev:arm64 protobuf-compiler",
+]

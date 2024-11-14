@@ -19,9 +19,11 @@ jobs:
               otp: 26.0.2
             lint: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: arduino/setup-protoc@v3
+        with:
+            repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: erlef/setup-beam@v1
         with:
