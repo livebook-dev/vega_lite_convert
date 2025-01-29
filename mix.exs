@@ -1,7 +1,7 @@
 defmodule VegaLite.Convert.MixProject do
   use Mix.Project
 
-  @version "1.0.1"
+  @version "1.0.2-dev"
   @description "Elixir bindings to Rust vl-convert library"
 
   def project do

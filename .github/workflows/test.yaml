@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+env:
+  MIX_ENV: test
+  VEGA_LITE_CONVERT_BUILD: "true"
 jobs:
   main:
     runs-on: ubuntu-20.04
