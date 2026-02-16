@@ -11,6 +11,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 rustler = "0.35.0"
-vl-convert-rs = "1.6.0"
+vl-convert-rs = "2.0.0-rc1"
 serde_json = "1.0.120"
 futures = "0.3.30"
